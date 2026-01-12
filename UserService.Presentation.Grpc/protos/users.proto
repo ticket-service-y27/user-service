@@ -1,0 +1,51 @@
+syntax = "proto3";
+package grpc.users;
+
+option csharp_namespace = "UserService.Users.Contracts";
+
+service UserService {
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc AssignUserRole(AssignUserRoleRequest) returns (AssignUserRoleResponse);
+  rpc BlockUserById(BlockUserByIdRequest) returns (BlockUserByIdResponse);
+  rpc LogInByNickname(LogInByNicknameRequest) returns (LogInByNicknameResponse);
+}
+
+enum UserRoleGrpc {
+  USER_ROLE_GRPC_UNSPECIFIED = 0;
+  USER_ROLE_GRPC_USER = 1;
+  USER_ROLE_GRPC_ADMIN = 2;
+  USER_ROLE_GRPC_ORGANIZER = 3;
+}
+
+message CreateUserRequest {
+  string nickname = 1;
+  string email = 2;
+  string password = 3;
+}
+message CreateUserResponse {
+  int64 user_id = 1;
+}
+
+
+message AssignUserRoleRequest {
+  int64 user_id = 1;
+  UserRoleGrpc role = 2;
+}
+message AssignUserRoleResponse {
+}
+
+
+message BlockUserByIdRequest {
+  int64 user_id = 1;
+}
+message BlockUserByIdResponse {
+}
+
+
+message LogInByNicknameRequest {
+  string nickname = 1;
+  string password = 2;
+}
+message LogInByNicknameResponse {
+  int64 user_id = 1;
+}
