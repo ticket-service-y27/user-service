@@ -11,6 +11,7 @@
       <ProjectReference Include="..\Application\UserService.Application\UserService.Application.csproj" />
       <ProjectReference Include="..\Infrastructure\UserService.Infrastructure.Persistence\UserService.Infrastructure.Persistence.csproj" />
       <ProjectReference Include="..\Infrastructure\UserService.Infrastructure.Security\UserService.Infrastructure.Security.csproj" />
+      <ProjectReference Include="..\Presentation\UserService.Presentation.Grpc\UserService.Presentation.Grpc.csproj" />
     </ItemGroup>
 
 </Project>

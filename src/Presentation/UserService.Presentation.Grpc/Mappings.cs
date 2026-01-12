@@ -4,7 +4,7 @@ using UserService.Users.Contracts;
 
 namespace UserService.Presentation.Grpc;
 
-public static class Map
+public static class Mappings
 {
     public static UserRole MapUserRole(this UserRoleGrpc role)
     {

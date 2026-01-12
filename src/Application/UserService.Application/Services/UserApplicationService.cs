@@ -45,6 +45,9 @@ public class UserApplicationService : IUserService
 
     public async Task BlockUserByIdAsync(long userId, CancellationToken ct)
     {
+        if (userId == 1)
+            return;
+
         await _userRepository.BlockUserByIdAsync(userId, ct);
     }
 
