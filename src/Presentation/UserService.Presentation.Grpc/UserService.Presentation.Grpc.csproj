@@ -20,8 +20,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UserService.Application.Contracts\UserService.Application.Contracts.csproj" />
-      <ProjectReference Include="..\UserService.Application.Models\UserService.Application.Models.csproj" />
+      <ProjectReference Include="..\..\Application\UserService.Application.Contracts\UserService.Application.Contracts.csproj" />
+      <ProjectReference Include="..\..\Application\UserService.Application.Models\UserService.Application.Models.csproj" />
     </ItemGroup>
 
 </Project>

@@ -13,29 +13,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{5C439D
 		docker-compose.yaml = docker-compose.yaml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "src\Application", "{818EEE5E-C5F3-4865-848D-9277EBCE7089}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{818EEE5E-C5F3-4865-848D-9277EBCE7089}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Application.Contracts", "src\UserService.Application.Contracts\UserService.Application.Contracts.csproj", "{5CCEBAE5-8BF8-4A86-8E5D-5206C5D12DB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Application.Contracts", "src\Application\UserService.Application.Contracts\UserService.Application.Contracts.csproj", "{5CCEBAE5-8BF8-4A86-8E5D-5206C5D12DB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Application.Models", "src\UserService.Application.Models\UserService.Application.Models.csproj", "{0E0CB978-4075-4CA4-94B7-92C74C09D0BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Application.Models", "src\Application\UserService.Application.Models\UserService.Application.Models.csproj", "{0E0CB978-4075-4CA4-94B7-92C74C09D0BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Application.Abstractions", "src\UserService.Application.Abstractions\UserService.Application.Abstractions.csproj", "{3B38E5F1-0CD9-4D42-97E6-0F6EC4411DBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Application.Abstractions", "src\Application\UserService.Application.Abstractions\UserService.Application.Abstractions.csproj", "{3B38E5F1-0CD9-4D42-97E6-0F6EC4411DBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Application", "src\UserService.Application\UserService.Application.csproj", "{B112896F-0649-4131-B00B-A5A079593930}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Application", "src\Application\UserService.Application\UserService.Application.csproj", "{B112896F-0649-4131-B00B-A5A079593930}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "src\Infrastructure", "{4E2CFAA5-9427-45CA-8FC1-60F3F9D7C999}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{4E2CFAA5-9427-45CA-8FC1-60F3F9D7C999}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Infrastructure.Persistence", "src\UserService.Infrastructure.Persistence\UserService.Infrastructure.Persistence.csproj", "{733C38D6-9805-4512-B14A-6EF2748DD502}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Infrastructure.Persistence", "src\Infrastructure\UserService.Infrastructure.Persistence\UserService.Infrastructure.Persistence.csproj", "{733C38D6-9805-4512-B14A-6EF2748DD502}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "src\Presentation", "{F0AD3EA0-66EC-4D29-A2D5-D964C62E51D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Infrastructure.Security", "src\Infrastructure\UserService.Infrastructure.Security\UserService.Infrastructure.Security.csproj", "{5C7B16EE-0C53-4020-B329-8E101A0852BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Presentation.Grpc", "src\UserService.Presentation.Grpc\UserService.Presentation.Grpc.csproj", "{C65FA874-E0F7-4B9A-B6C5-F3E811BED1A6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F0AD3EA0-66EC-4D29-A2D5-D964C62E51D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Presentation.Grpc", "src\Presentation\UserService.Presentation.Grpc\UserService.Presentation.Grpc.csproj", "{C65FA874-E0F7-4B9A-B6C5-F3E811BED1A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "src\UserService\UserService.csproj", "{66296875-9159-4EAC-8703-E2C42C7E2914}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Infrastructure.Security", "src\UserService.Infrastructure.Security\UserService.Infrastructure.Security.csproj", "{5C7B16EE-0C53-4020-B329-8E101A0852BB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests\tests", "{946BA986-62F8-4C41-8D09-38DCEE9C3E15}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{946BA986-62F8-4C41-8D09-38DCEE9C3E15}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Tests.ConsoleApp", "tests\UserService.Tests.ConsoleApp\UserService.Tests.ConsoleApp.csproj", "{E72A16F6-A7BE-48AB-9AAA-4A4F6D6C72F2}"
 EndProject

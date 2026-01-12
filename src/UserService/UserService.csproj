@@ -8,9 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UserService.Application\UserService.Application.csproj" />
-      <ProjectReference Include="..\UserService.Infrastructure.Persistence\UserService.Infrastructure.Persistence.csproj" />
-      <ProjectReference Include="..\UserService.Infrastructure.Security\UserService.Infrastructure.Security.csproj" />
+      <ProjectReference Include="..\Application\UserService.Application\UserService.Application.csproj" />
+      <ProjectReference Include="..\Infrastructure\UserService.Infrastructure.Persistence\UserService.Infrastructure.Persistence.csproj" />
+      <ProjectReference Include="..\Infrastructure\UserService.Infrastructure.Security\UserService.Infrastructure.Security.csproj" />
     </ItemGroup>
 
 </Project>

@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UserService.Application.Abstractions\UserService.Application.Abstractions.csproj" />
-      <ProjectReference Include="..\UserService.Application\UserService.Application.csproj" />
+      <ProjectReference Include="..\..\Application\UserService.Application.Abstractions\UserService.Application.Abstractions.csproj" />
+      <ProjectReference Include="..\..\Application\UserService.Application\UserService.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>
