@@ -44,7 +44,7 @@ public class NpgsqlUserRepository : IUserRepository
         return (long)id;
     }
 
-    public async Task AssignUserRoleAsync(long userId, UserRole role, CancellationToken ct)
+    public async Task<bool> AssignUserRoleAsync(long userId, UserRole role, CancellationToken ct)
     {
         const string sql =
             """
@@ -59,11 +59,10 @@ public class NpgsqlUserRepository : IUserRepository
         command.Parameters.AddWithValue("role", role);
         command.Parameters.AddWithValue("user_id", userId);
 
-        if (await command.ExecuteNonQueryAsync(ct) == 0)
-            throw new NotFoundException(nameof(userId), userId.ToString());
+        return await command.ExecuteNonQueryAsync(ct) == 1;
     }
 
-    public async Task BlockUserByIdAsync(long userId, CancellationToken ct)
+    public async Task<bool> BlockUserByIdAsync(long userId, CancellationToken ct)
     {
         const string sql =
             """
@@ -80,8 +79,7 @@ public class NpgsqlUserRepository : IUserRepository
         command.Parameters.AddWithValue("blocked_at", DateTimeOffset.UtcNow);
         command.Parameters.AddWithValue("user_id", userId);
 
-        if (await command.ExecuteNonQueryAsync(ct) == 0)
-            throw new NotFoundException(nameof(userId), userId.ToString());
+        return await command.ExecuteNonQueryAsync(ct) == 1;
     }
 
     public async Task<User?> GetUserByNicknameAsync(string nickname, CancellationToken ct)
@@ -105,6 +103,43 @@ public class NpgsqlUserRepository : IUserRepository
 
         await using var command = new NpgsqlCommand(sql, connection);
         command.Parameters.AddWithValue("nickname", nickname);
+
+        await using NpgsqlDataReader reader = await command.ExecuteReaderAsync(ct);
+        if (!await reader.ReadAsync(ct))
+            return null;
+
+        return new User(
+            Id: reader.GetInt64(0),
+            Nickname: reader.GetString(1),
+            Email: reader.GetString(2),
+            PasswordHash: reader.GetString(3),
+            Role: reader.GetFieldValue<UserRole>(4),
+            CreatedAt: reader.GetFieldValue<DateTimeOffset>(5),
+            IsBlocked: reader.GetBoolean(6),
+            BlockedAt: reader.GetFieldValue<DateTimeOffset?>(7));
+    }
+
+    public async Task<User?> GetUserByIdAsync(long userId, CancellationToken ct)
+    {
+        const string sql =
+            """
+            select 
+                user_id, 
+                user_nickname, 
+                user_email, 
+                user_password_hash, 
+                user_role, 
+                user_created_at,
+                user_is_blocked,
+                user_blocked_at
+            from users
+            where user_id = @id;
+            """;
+
+        await using NpgsqlConnection connection = await _dataSource.OpenConnectionAsync(ct);
+
+        await using var command = new NpgsqlCommand(sql, connection);
+        command.Parameters.AddWithValue("id", userId);
 
         await using NpgsqlDataReader reader = await command.ExecuteReaderAsync(ct);
         if (!await reader.ReadAsync(ct))

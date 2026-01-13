@@ -1,4 +1,4 @@
-namespace UserService.Application.Abstractions.Persistence.Exceptions;
+namespace UserService.Application.Exceptions;
 
 public class NotFoundException : Exception
 {

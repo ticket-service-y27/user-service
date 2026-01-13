@@ -1,3 +1,4 @@
+using System.Net.Mail;
 using UserService.Application.Abstractions.Persistence.Repositories;
 using UserService.Application.Abstractions.Security;
 using UserService.Application.Contracts;
@@ -26,7 +27,7 @@ public class UserApplicationService : IUserService
     {
         if (string.IsNullOrWhiteSpace(nickname))
             throw new FieldValidationException(nameof(nickname), nickname);
-        if (string.IsNullOrWhiteSpace(email))
+        if (string.IsNullOrWhiteSpace(email) || !MailAddress.TryCreate(email, out _))
             throw new FieldValidationException(nameof(email), email);
         if (string.IsNullOrWhiteSpace(password))
             throw new FieldValidationException(nameof(password), password);
@@ -45,13 +46,28 @@ public class UserApplicationService : IUserService
 
     public async Task AssignUserRoleAsync(long userId, UserRole role, CancellationToken ct)
     {
+        if (userId == 1)
+            throw new ActionOnMainAdminException();
+
+        User? user = await _userRepository.GetUserByIdAsync(userId, ct);
+        if (user is null)
+            throw new NotFoundException(nameof(userId), userId.ToString());
+        if (user.IsBlocked)
+            throw new UserBlockedException(user.Nickname, user.Id);
+
         await _userRepository.AssignUserRoleAsync(userId, role, ct);
     }
 
     public async Task BlockUserByIdAsync(long userId, CancellationToken ct)
     {
         if (userId == 1)
-            return;
+            throw new ActionOnMainAdminException();
+
+        User? user = await _userRepository.GetUserByIdAsync(userId, ct);
+        if (user is null)
+            throw new NotFoundException(nameof(userId), userId.ToString());
+        if (user.IsBlocked)
+            throw new UserBlockedException(user.Nickname, user.Id);
 
         await _userRepository.BlockUserByIdAsync(userId, ct);
     }

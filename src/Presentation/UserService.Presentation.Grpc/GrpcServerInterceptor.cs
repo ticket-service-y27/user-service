@@ -40,9 +40,19 @@ public class GrpcServerInterceptor : Interceptor
         {
             throw new RpcException(new Status(StatusCode.PermissionDenied, e.Message));
         }
+        catch (ActionOnMainAdminException e)
+        {
+            throw new RpcException(new Status(StatusCode.PermissionDenied, e.Message));
+        }
         catch (ArgumentOutOfRangeException e)
         {
             throw new RpcException(new Status(StatusCode.Internal, e.Message));
+        }
+        catch (Exception e)
+        {
+            throw new RpcException(new Status(
+                StatusCode.Internal,
+                detail: $"Возникла непредвиденная ошибка: {e.Message}"));
         }
     }
 }

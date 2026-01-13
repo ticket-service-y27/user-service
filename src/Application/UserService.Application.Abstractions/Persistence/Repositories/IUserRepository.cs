@@ -11,9 +11,11 @@ public interface IUserRepository
         UserRole role,
         CancellationToken ct);
 
-    Task AssignUserRoleAsync(long userId, UserRole role, CancellationToken ct);
+    Task<bool> AssignUserRoleAsync(long userId, UserRole role, CancellationToken ct);
 
-    Task BlockUserByIdAsync(long userId, CancellationToken ct);
+    Task<bool> BlockUserByIdAsync(long userId, CancellationToken ct);
 
     Task<User?> GetUserByNicknameAsync(string nickname, CancellationToken ct);
+
+    Task<User?> GetUserByIdAsync(long userId, CancellationToken ct);
 }
