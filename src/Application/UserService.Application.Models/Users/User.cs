@@ -6,4 +6,6 @@ public sealed record User(
     string Email,
     string PasswordHash,
     UserRole Role,
-    DateTimeOffset CreatedAt);
+    DateTimeOffset CreatedAt,
+    bool IsBlocked,
+    DateTimeOffset? BlockedAt);

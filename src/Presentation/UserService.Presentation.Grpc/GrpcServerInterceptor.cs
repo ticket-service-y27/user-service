@@ -24,7 +24,7 @@ public class GrpcServerInterceptor : Interceptor
         {
             throw new RpcException(new Status(StatusCode.NotFound, e.Message));
         }
-        catch (ConflictException e)
+        catch (AlreadyExistsException e)
         {
             throw new RpcException(new Status(StatusCode.AlreadyExists, e.Message));
         }
@@ -35,6 +35,14 @@ public class GrpcServerInterceptor : Interceptor
         catch (InvalidAuthorizeException e)
         {
             throw new RpcException(new Status(StatusCode.Unauthenticated, e.Message));
+        }
+        catch (UserBlockedException e)
+        {
+            throw new RpcException(new Status(StatusCode.PermissionDenied, e.Message));
+        }
+        catch (ArgumentOutOfRangeException e)
+        {
+            throw new RpcException(new Status(StatusCode.Internal, e.Message));
         }
     }
 }

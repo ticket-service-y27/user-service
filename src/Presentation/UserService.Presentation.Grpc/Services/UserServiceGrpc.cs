@@ -13,6 +13,19 @@ public class UserServiceGrpc : UserService.Users.Contracts.UserService.UserServi
         _userService = userService;
     }
 
+    public override async Task<LogInByNicknameResponse> LogInByNickname(
+        LogInByNicknameRequest request,
+        ServerCallContext context)
+    {
+        return new LogInByNicknameResponse
+        {
+            JwtAccessToken = await _userService.LogInByNicknameAsync(
+                request.Nickname,
+                request.Password,
+                context.CancellationToken),
+        };
+    }
+
     public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
     {
         return new CreateUserResponse
@@ -39,18 +52,5 @@ public class UserServiceGrpc : UserService.Users.Contracts.UserService.UserServi
     {
         await _userService.BlockUserByIdAsync(request.UserId, context.CancellationToken);
         return new BlockUserByIdResponse();
-    }
-
-    public override async Task<LogInByNicknameResponse> LogInByNickname(
-        LogInByNicknameRequest request,
-        ServerCallContext context)
-    {
-        return new LogInByNicknameResponse
-        {
-            UserId = await _userService.LogInByNicknameAsync(
-                request.Nickname,
-                request.Password,
-                context.CancellationToken),
-        };
     }
 }

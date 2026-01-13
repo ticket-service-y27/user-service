@@ -21,5 +21,6 @@
     <PackageVersion Include="SourceKit.Analyzers.Properties" Version="1.0.50" />
     <PackageVersion Include="Itmo.Dev.Editorconfig" Version="1.0.12" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.507" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
   </ItemGroup>
 </Project>

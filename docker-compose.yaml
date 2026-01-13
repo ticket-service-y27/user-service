@@ -1,7 +1,9 @@
+name: csms-ticket-service
+
 services:
-  postgres:
+  user_postgres:
     image: postgres:16
-    container_name: csms-ticket-service-users
+    container_name: user-service
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postpost
@@ -9,12 +11,12 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - user_pgdata:/var/lib/postgresql/data
     restart: unless-stopped
   
-  postgres_test:
+  user_postgres_test:
     image: postgres:16
-    container_name: csms-ticket-service-users-test
+    container_name: user-service-test
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postpost
@@ -22,9 +24,9 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - pgdata_test:/var/lib/postgresql/data
+      - user_pgdata_test:/var/lib/postgresql/data
     restart: unless-stopped
 
 volumes:
-  pgdata: {}
-  pgdata_test: {}
+  user_pgdata: {}
+  user_pgdata_test: {}

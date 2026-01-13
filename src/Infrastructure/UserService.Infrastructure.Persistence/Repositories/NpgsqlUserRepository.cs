@@ -94,7 +94,9 @@ public class NpgsqlUserRepository : IUserRepository
                 user_email, 
                 user_password_hash, 
                 user_role, 
-                user_created_at
+                user_created_at,
+                user_is_blocked,
+                user_blocked_at
             from users
             where user_nickname = @nickname;
             """;
@@ -114,6 +116,8 @@ public class NpgsqlUserRepository : IUserRepository
             Email: reader.GetString(2),
             PasswordHash: reader.GetString(3),
             Role: reader.GetFieldValue<UserRole>(4),
-            CreatedAt: reader.GetFieldValue<DateTimeOffset>(5));
+            CreatedAt: reader.GetFieldValue<DateTimeOffset>(5),
+            IsBlocked: reader.GetBoolean(6),
+            BlockedAt: reader.GetFieldValue<DateTimeOffset?>(7));
     }
 }

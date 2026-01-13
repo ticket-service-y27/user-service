@@ -1,4 +1,4 @@
-namespace UserService.Infrastructure.Security.Options;
+namespace UserService.Infrastructure.Security.Password;
 
 public class PasswordHasherOptions
 {

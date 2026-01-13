@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Options;
 using UserService.Application.Abstractions.Security;
 using UserService.Application.Exceptions;
-using UserService.Infrastructure.Security.Options;
 
 namespace UserService.Infrastructure.Security.Password;
 

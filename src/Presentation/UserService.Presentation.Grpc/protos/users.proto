@@ -4,10 +4,10 @@ package grpc.users;
 option csharp_namespace = "UserService.Users.Contracts";
 
 service UserService {
+  rpc LogInByNickname(LogInByNicknameRequest) returns (LogInByNicknameResponse);
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
   rpc AssignUserRole(AssignUserRoleRequest) returns (AssignUserRoleResponse);
   rpc BlockUserById(BlockUserByIdRequest) returns (BlockUserByIdResponse);
-  rpc LogInByNickname(LogInByNicknameRequest) returns (LogInByNicknameResponse);
 }
 
 enum UserRoleGrpc {
@@ -16,6 +16,15 @@ enum UserRoleGrpc {
   USER_ROLE_GRPC_ADMIN = 2;
   USER_ROLE_GRPC_ORGANIZER = 3;
 }
+
+message LogInByNicknameRequest {
+  string nickname = 1;
+  string password = 2;
+}
+message LogInByNicknameResponse {
+  string jwt_access_token = 1;
+}
+
 
 message CreateUserRequest {
   string nickname = 1;
@@ -39,13 +48,4 @@ message BlockUserByIdRequest {
   int64 user_id = 1;
 }
 message BlockUserByIdResponse {
-}
-
-
-message LogInByNicknameRequest {
-  string nickname = 1;
-  string password = 2;
-}
-message LogInByNicknameResponse {
-  int64 user_id = 1;
 }

@@ -49,8 +49,8 @@ catch (Exception ex)
 
 try
 {
-    long id = await userService.LogInByNicknameAsync("admin", "admin", ct);
-    Console.WriteLine("USER LOG IN");
+    string token = await userService.LogInByNicknameAsync("admin", "admin", ct);
+    Console.WriteLine($"USER LOG IN : token = {token}");
 }
 catch (Exception ex)
 {

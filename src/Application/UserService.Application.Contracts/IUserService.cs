@@ -10,5 +10,5 @@ public interface IUserService
 
     Task BlockUserByIdAsync(long userId, CancellationToken ct);
 
-    Task<long> LogInByNicknameAsync(string nickname, string password, CancellationToken ct);
+    Task<string> LogInByNicknameAsync(string nickname, string password, CancellationToken ct);
 }
