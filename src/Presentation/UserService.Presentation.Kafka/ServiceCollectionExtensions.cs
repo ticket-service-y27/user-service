@@ -17,8 +17,8 @@ public static class ServiceCollectionExtensions
         services.AddPlatformKafka(kafka => kafka
             .ConfigureOptions(configuration.GetSection("Presentation:Kafka"))
             .AddProducer(producer => producer
-                .WithKey<UserCreationKey>()
-                .WithValue<UserCreationValue>()
+                .WithKey<UserEventKey>()
+                .WithValue<UserEventValue>()
                 .WithConfiguration(configuration.GetSection($"{producerKey}:UserCreation"))
                 .SerializeKeyWithProto()
                 .SerializeValueWithProto()));

@@ -15,6 +15,8 @@ public interface IUserRepository
 
     Task<bool> BlockUserByIdAsync(long userId, CancellationToken ct);
 
+    Task<bool> UnblockUserByIdAsync(long userId, CancellationToken ct);
+
     Task<User?> GetUserByNicknameAsync(string nickname, CancellationToken ct);
 
     Task<User?> GetUserByIdAsync(long userId, CancellationToken ct);

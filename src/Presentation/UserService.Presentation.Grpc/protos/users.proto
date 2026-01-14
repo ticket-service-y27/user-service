@@ -8,6 +8,7 @@ service UserService {
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
   rpc AssignUserRole(AssignUserRoleRequest) returns (AssignUserRoleResponse);
   rpc BlockUserById(BlockUserByIdRequest) returns (BlockUserByIdResponse);
+  rpc UnblockUserById(UnblockUserByIdRequest) returns (UnblockUserByIdResponse);
 }
 
 enum UserRoleGrpc {
@@ -48,4 +49,11 @@ message BlockUserByIdRequest {
   int64 user_id = 1;
 }
 message BlockUserByIdResponse {
+}
+
+
+message UnblockUserByIdRequest {
+  int64 user_id = 1;
+}
+message UnblockUserByIdResponse {
 }

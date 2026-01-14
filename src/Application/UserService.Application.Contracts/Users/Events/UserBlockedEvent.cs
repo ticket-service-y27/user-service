@@ -2,6 +2,6 @@ using Itmo.Dev.Platform.Events;
 
 namespace UserService.Application.Contracts.Users.Events;
 
-public sealed record UserCreatedEvent(
+public sealed record UserBlockedEvent(
     long UserId,
-    DateTimeOffset CreatedAt) : IEvent;
+    DateTimeOffset BlockedAt) : IEvent;

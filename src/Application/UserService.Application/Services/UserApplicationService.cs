@@ -78,9 +78,31 @@ public class UserApplicationService : IUserService
         if (user is null)
             throw new NotFoundException(nameof(userId), userId.ToString());
         if (user.IsBlocked)
-            throw new UserBlockedException(user.Nickname, user.Id);
+            throw new UserAlreadyBlockedException(user.Nickname, user.Id);
 
         await _userRepository.BlockUserByIdAsync(userId, ct);
+
+        await _eventPublisher.PublishAsync(
+            new UserBlockedEvent(userId, DateTimeOffset.UtcNow),
+            ct);
+    }
+
+    public async Task UnblockUserByIdAsync(long userId, CancellationToken ct)
+    {
+        if (userId == 1)
+            throw new ActionOnMainAdminException();
+
+        User? user = await _userRepository.GetUserByIdAsync(userId, ct);
+        if (user is null)
+            throw new NotFoundException(nameof(userId), userId.ToString());
+        if (!user.IsBlocked)
+            throw new UserAlreadyUnblockedException(user.Nickname, user.Id);
+
+        await _userRepository.UnblockUserByIdAsync(userId, ct);
+
+        await _eventPublisher.PublishAsync(
+            new UserUnblockedEvent(userId, DateTimeOffset.UtcNow),
+            ct);
     }
 
     public async Task<string> LogInByNicknameAsync(string nickname, string password, CancellationToken ct)

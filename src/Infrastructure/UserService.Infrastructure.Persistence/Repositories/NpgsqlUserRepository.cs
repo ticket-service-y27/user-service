@@ -82,6 +82,25 @@ public class NpgsqlUserRepository : IUserRepository
         return await command.ExecuteNonQueryAsync(ct) == 1;
     }
 
+    public async Task<bool> UnblockUserByIdAsync(long userId, CancellationToken ct)
+    {
+        const string sql =
+            """
+            update users
+            set 
+                user_is_blocked = false,
+                user_blocked_at = null
+            where user_id = @user_id;
+            """;
+
+        await using NpgsqlConnection connection = await _dataSource.OpenConnectionAsync(ct);
+
+        await using var command = new NpgsqlCommand(sql, connection);
+        command.Parameters.AddWithValue("user_id", userId);
+
+        return await command.ExecuteNonQueryAsync(ct) == 1;
+    }
+
     public async Task<User?> GetUserByNicknameAsync(string nickname, CancellationToken ct)
     {
         const string sql =

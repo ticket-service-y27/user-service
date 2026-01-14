@@ -7,25 +7,25 @@ using UserService.Application.Contracts.Users.Events;
 
 namespace UserService.Presentation.Kafka.ProducerHandlers.Users;
 
-public class UserCreatedHandler : IEventHandler<UserCreatedEvent>
+public class UserBlockedHandler : IEventHandler<UserBlockedEvent>
 {
     private readonly IKafkaMessageProducer<UserEventKey, UserEventValue> _producer;
 
-    public UserCreatedHandler(IKafkaMessageProducer<UserEventKey, UserEventValue> producer)
+    public UserBlockedHandler(IKafkaMessageProducer<UserEventKey, UserEventValue> producer)
     {
         _producer = producer;
     }
 
-    public async ValueTask HandleAsync(UserCreatedEvent evt, CancellationToken cancellationToken)
+    public async ValueTask HandleAsync(UserBlockedEvent evt, CancellationToken cancellationToken)
     {
         var key = new UserEventKey { UserId = evt.UserId };
 
         var value = new UserEventValue
         {
-            UserCreated = new UserEventValue.Types.UserCreated
+            UserBlocked = new UserEventValue.Types.UserBlocked
             {
                 UserId = evt.UserId,
-                CreatedAt = evt.CreatedAt.ToTimestamp(),
+                BlockedAt = evt.BlockedAt.ToTimestamp(),
             },
         };
 

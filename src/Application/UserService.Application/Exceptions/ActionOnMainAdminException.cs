@@ -3,5 +3,5 @@ namespace UserService.Application.Exceptions;
 public class ActionOnMainAdminException : Exception
 {
     public ActionOnMainAdminException()
-        : base($"Exception. Forbidden block and assign role for MAIN ADMIN") { }
+        : base($"Exception. Forbidden any actions for MAIN ADMIN") { }
 }

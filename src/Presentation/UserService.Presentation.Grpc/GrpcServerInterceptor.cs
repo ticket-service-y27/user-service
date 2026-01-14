@@ -40,9 +40,17 @@ public class GrpcServerInterceptor : Interceptor
         {
             throw new RpcException(new Status(StatusCode.PermissionDenied, e.Message));
         }
+        catch (UserAlreadyUnblockedException e)
+        {
+            throw new RpcException(new Status(StatusCode.FailedPrecondition, e.Message));
+        }
+        catch (UserAlreadyBlockedException e)
+        {
+            throw new RpcException(new Status(StatusCode.FailedPrecondition, e.Message));
+        }
         catch (ActionOnMainAdminException e)
         {
-            throw new RpcException(new Status(StatusCode.PermissionDenied, e.Message));
+            throw new RpcException(new Status(StatusCode.FailedPrecondition, e.Message));
         }
         catch (ArgumentOutOfRangeException e)
         {

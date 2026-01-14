@@ -53,4 +53,12 @@ public class UserServiceGrpc : Users.UserService.Contracts.UserService.UserServi
         await _userService.BlockUserByIdAsync(request.UserId, context.CancellationToken);
         return new BlockUserByIdResponse();
     }
+
+    public override async Task<UnblockUserByIdResponse> UnblockUserById(
+        UnblockUserByIdRequest request,
+        ServerCallContext context)
+    {
+        await _userService.UnblockUserByIdAsync(request.UserId, context.CancellationToken);
+        return new UnblockUserByIdResponse();
+    }
 }
