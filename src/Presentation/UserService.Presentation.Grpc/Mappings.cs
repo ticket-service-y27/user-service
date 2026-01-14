@@ -1,6 +1,6 @@
 using Grpc.Core;
+using Users.UserService.Contracts;
 using UserService.Application.Models.Users;
-using UserService.Users.Contracts;
 
 namespace UserService.Presentation.Grpc;
 

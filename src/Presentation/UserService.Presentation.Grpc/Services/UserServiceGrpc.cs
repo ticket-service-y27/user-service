@@ -1,10 +1,10 @@
 using Grpc.Core;
+using Users.UserService.Contracts;
 using UserService.Application.Contracts;
-using UserService.Users.Contracts;
 
 namespace UserService.Presentation.Grpc.Services;
 
-public class UserServiceGrpc : UserService.Users.Contracts.UserService.UserServiceBase
+public class UserServiceGrpc : Users.UserService.Contracts.UserService.UserServiceBase
 {
     private readonly IUserService _userService;
 

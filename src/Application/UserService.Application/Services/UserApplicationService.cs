@@ -1,7 +1,9 @@
+using Itmo.Dev.Platform.Events;
 using System.Net.Mail;
 using UserService.Application.Abstractions.Persistence.Repositories;
 using UserService.Application.Abstractions.Security;
 using UserService.Application.Contracts;
+using UserService.Application.Contracts.Users.Events;
 using UserService.Application.Exceptions;
 using UserService.Application.Models.Users;
 
@@ -12,15 +14,18 @@ public class UserApplicationService : IUserService
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtTokenCreator _jwtTokenCreator;
+    private readonly IEventPublisher _eventPublisher;
 
     public UserApplicationService(
         IUserRepository userRepository,
         IPasswordHasher passwordHasher,
-        IJwtTokenCreator jwtTokenCreator)
+        IJwtTokenCreator jwtTokenCreator,
+        IEventPublisher eventPublisher)
     {
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
         _jwtTokenCreator = jwtTokenCreator;
+        _eventPublisher = eventPublisher;
     }
 
     public async Task<long> CreateUserAsync(string nickname, string email, string password, CancellationToken ct)
@@ -36,12 +41,18 @@ public class UserApplicationService : IUserService
         if (await _userRepository.GetUserByNicknameAsync(nickname, ct) is not null)
             throw new AlreadyExistsException(nameof(nickname), nickname);
 
-        return await _userRepository.CreateAsync(
+        long userId = await _userRepository.CreateAsync(
             nickname,
             email.Trim().ToLowerInvariant(),
             _passwordHasher.Hash(password),
             UserRole.User,
             ct);
+
+        await _eventPublisher.PublishAsync(
+            new UserCreatedEvent(userId, DateTimeOffset.UtcNow),
+            ct);
+
+        return userId;
     }
 
     public async Task AssignUserRoleAsync(long userId, UserRole role, CancellationToken ct)

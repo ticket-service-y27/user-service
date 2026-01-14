@@ -1,7 +1,7 @@
 syntax = "proto3";
 package grpc.users;
 
-option csharp_namespace = "UserService.Users.Contracts";
+option csharp_namespace = "Users.UserService.Contracts";
 
 service UserService {
   rpc LogInByNickname(LogInByNicknameRequest) returns (LogInByNicknameResponse);

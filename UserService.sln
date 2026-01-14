@@ -33,13 +33,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Presentation.Grpc", "src\Presentation\UserService.Presentation.Grpc\UserService.Presentation.Grpc.csproj", "{C65FA874-E0F7-4B9A-B6C5-F3E811BED1A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Presentation.Kafka", "src\Presentation\UserService.Presentation.Kafka\UserService.Presentation.Kafka.csproj", "{7073FF1D-F1B2-46DF-995D-F2AF34636316}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "src\UserService\UserService.csproj", "{66296875-9159-4EAC-8703-E2C42C7E2914}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{946BA986-62F8-4C41-8D09-38DCEE9C3E15}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Tests.ConsoleApp", "tests\UserService.Tests.ConsoleApp\UserService.Tests.ConsoleApp.csproj", "{E72A16F6-A7BE-48AB-9AAA-4A4F6D6C72F2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Presentation.Kafka", "UserService.Presentation.Kafka\UserService.Presentation.Kafka.csproj", "{7073FF1D-F1B2-46DF-995D-F2AF34636316}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
