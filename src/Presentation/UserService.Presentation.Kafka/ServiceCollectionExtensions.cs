@@ -1,3 +1,4 @@
+using Itmo.Dev.Platform.Events;
 using Itmo.Dev.Platform.Kafka.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,5 +24,11 @@ public static class ServiceCollectionExtensions
                 .SerializeValueWithProto()));
 
         return services;
+    }
+
+    public static IEventsConfigurationBuilder AddPresentationKafkaEventHandlers(
+        this IEventsConfigurationBuilder builder)
+    {
+        return builder.AddHandlersFromAssemblyContaining<IKafkaAssemblyMarker>();
     }
 }

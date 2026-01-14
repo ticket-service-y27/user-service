@@ -12,6 +12,7 @@
       <ProjectReference Include="..\Infrastructure\UserService.Infrastructure.Persistence\UserService.Infrastructure.Persistence.csproj" />
       <ProjectReference Include="..\Infrastructure\UserService.Infrastructure.Security\UserService.Infrastructure.Security.csproj" />
       <ProjectReference Include="..\Presentation\UserService.Presentation.Grpc\UserService.Presentation.Grpc.csproj" />
+      <ProjectReference Include="..\Presentation\UserService.Presentation.Kafka\UserService.Presentation.Kafka.csproj" />
     </ItemGroup>
 
 </Project>
