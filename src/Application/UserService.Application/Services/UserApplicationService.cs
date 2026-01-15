@@ -8,6 +8,7 @@ using UserService.Application.Contracts;
 using UserService.Application.Contracts.Users.Events;
 using UserService.Application.Exceptions;
 using UserService.Application.Models.Users;
+using UserService.Application.Models.Users.Dtos;
 using UserService.Application.Models.Users.Enums;
 
 namespace UserService.Application.Services;
@@ -20,6 +21,7 @@ public class UserApplicationService : IUserService
     private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtTokenCreator _jwtTokenCreator;
     private readonly IUserLoyaltyManager _userLoyaltyManager;
+    private readonly ILoyaltyLevelCalculator _loyaltyLevelCalculator;
     private readonly IEventPublisher _eventPublisher;
 
     public UserApplicationService(
@@ -29,6 +31,7 @@ public class UserApplicationService : IUserService
         IPasswordHasher passwordHasher,
         IJwtTokenCreator jwtTokenCreator,
         IUserLoyaltyManager userLoyaltyManager,
+        ILoyaltyLevelCalculator loyaltyLevelCalculator,
         IEventPublisher eventPublisher)
     {
         _userRepository = userRepository;
@@ -37,6 +40,7 @@ public class UserApplicationService : IUserService
         _passwordHasher = passwordHasher;
         _jwtTokenCreator = jwtTokenCreator;
         _userLoyaltyManager = userLoyaltyManager;
+        _loyaltyLevelCalculator = loyaltyLevelCalculator;
         _eventPublisher = eventPublisher;
     }
 
@@ -181,5 +185,20 @@ public class UserApplicationService : IUserService
         bool isUpdated = await _userLoyaltyManager.RecalculateAsync(userId, totalSpent, calculatedAt, periodState, ct);
         if (isUpdated)
             transactionScope.Complete();
+    }
+
+    public async Task<UserDiscountInfoDto> GetUserDiscountInfoAsync(long userId, CancellationToken ct)
+    {
+        User? user = await _userRepository.GetByIdAsync(userId, ct);
+        if (user is null)
+            throw new NotFoundException(nameof(User), nameof(userId), userId.ToString());
+
+        Models.Users.UserLoyaltyState? state = await _userLoyaltyAccountRepository.GetUserLoyaltyLevelAsync(userId, ct);
+        if (state is null)
+            throw new NotFoundException(nameof(UserLoyaltyAccount), nameof(userId), userId.ToString());
+
+        return new UserDiscountInfoDto(
+            _loyaltyLevelCalculator.GetDiscountPercent(state.Level),
+            state.IsBlocked);
     }
 }

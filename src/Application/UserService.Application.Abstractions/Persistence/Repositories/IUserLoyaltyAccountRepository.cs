@@ -1,3 +1,4 @@
+using UserService.Application.Models.Users;
 using UserService.Application.Models.Users.Enums;
 
 namespace UserService.Application.Abstractions.Persistence.Repositories;
@@ -14,4 +15,6 @@ public interface IUserLoyaltyAccountRepository
         UserLoyaltyLevel loyaltyLevel,
         DateTimeOffset calculatedAt,
         CancellationToken ct);
+
+    Task<UserLoyaltyState?> GetUserLoyaltyLevelAsync(long userId, CancellationToken ct);
 }

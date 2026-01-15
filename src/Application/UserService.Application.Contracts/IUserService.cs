@@ -1,3 +1,4 @@
+using UserService.Application.Models.Users.Dtos;
 using UserService.Application.Models.Users.Enums;
 
 namespace UserService.Application.Contracts;
@@ -19,4 +20,6 @@ public interface IUserService
         long totalSpent,
         DateTimeOffset calculatedAt,
         CancellationToken ct);
+
+    Task<UserDiscountInfoDto> GetUserDiscountInfoAsync(long userId, CancellationToken ct);
 }

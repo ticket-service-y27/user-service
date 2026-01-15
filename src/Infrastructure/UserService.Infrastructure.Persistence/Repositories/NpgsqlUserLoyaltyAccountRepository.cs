@@ -84,4 +84,27 @@ public class NpgsqlUserLoyaltyAccountRepository : IUserLoyaltyAccountRepository
 
         return await command.ExecuteNonQueryAsync(ct) == 1;
     }
+
+    public async Task<UserLoyaltyState?> GetUserLoyaltyLevelAsync(long userId, CancellationToken ct)
+    {
+        const string sql =
+            """
+            select loyalty_level, is_blocked
+            from user_loyalty_accounts
+            where user_id = @user_id;
+            """;
+
+        await using NpgsqlConnection connection = await _dataSource.OpenConnectionAsync(ct);
+
+        await using var command = new NpgsqlCommand(sql, connection);
+        command.Parameters.AddWithValue("user_id", userId);
+
+        await using NpgsqlDataReader reader = await command.ExecuteReaderAsync(ct);
+        if (!await reader.ReadAsync(ct))
+            return null;
+
+        return new UserLoyaltyState(
+            reader.GetFieldValue<UserLoyaltyLevel>(0),
+            reader.GetBoolean(1));
+    }
 }
