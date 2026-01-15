@@ -1,4 +1,4 @@
-using UserService.Application.Models.Users;
+using UserService.Application.Models.Users.Enums;
 
 namespace UserService.Application.Abstractions.Security;
 

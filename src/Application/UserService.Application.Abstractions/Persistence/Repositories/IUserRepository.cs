@@ -1,4 +1,5 @@
 using UserService.Application.Models.Users;
+using UserService.Application.Models.Users.Enums;
 
 namespace UserService.Application.Abstractions.Persistence.Repositories;
 
@@ -13,11 +14,11 @@ public interface IUserRepository
 
     Task<bool> AssignUserRoleAsync(long userId, UserRole role, CancellationToken ct);
 
-    Task<bool> BlockUserByIdAsync(long userId, CancellationToken ct);
+    Task<bool> BlockByIdAsync(long userId, CancellationToken ct);
 
-    Task<bool> UnblockUserByIdAsync(long userId, CancellationToken ct);
+    Task<bool> UnblockByIdAsync(long userId, CancellationToken ct);
 
-    Task<User?> GetUserByNicknameAsync(string nickname, CancellationToken ct);
+    Task<User?> GetByNicknameAsync(string nickname, CancellationToken ct);
 
-    Task<User?> GetUserByIdAsync(long userId, CancellationToken ct);
+    Task<User?> GetByIdAsync(long userId, CancellationToken ct);
 }

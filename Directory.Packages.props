@@ -13,7 +13,8 @@
     <PackageVersion Include="Itmo.Dev.Platform.Events" Version="1.3.308" />
     <PackageVersion Include="Itmo.Dev.Platform.Kafka" Version="2.3.326" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.2" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.1" />
     <PackageVersion Include="Npgsql" Version="10.0.1" />
     <PackageVersion Include="SourceKit.Analyzers.Collections" Version="1.0.50" />

@@ -1,5 +1,6 @@
 ﻿using Itmo.Dev.Platform.Events;
 using UserService.Application;
+using UserService.Infrastructure.Loyalty;
 using UserService.Infrastructure.Persistence;
 using UserService.Infrastructure.Security;
 using UserService.Presentation.Grpc;
@@ -13,6 +14,7 @@ builder.Services
     .AddInfrastructurePersistence(builder.Configuration)
     .AddMigrations()
     .AddInfrastructureSecurity(builder.Configuration)
+    .AddInfrastructureLoyaltySystem(builder.Configuration)
     .AddPresentationGrpc()
     .AddPresentationKafka(builder.Configuration);
 

@@ -1,4 +1,4 @@
-using UserService.Application.Models.Users;
+using UserService.Application.Models.Users.Enums;
 
 namespace UserService.Application.Contracts;
 
@@ -13,4 +13,10 @@ public interface IUserService
     Task UnblockUserByIdAsync(long userId, CancellationToken ct);
 
     Task<string> LogInByNicknameAsync(string nickname, string password, CancellationToken ct);
+
+    Task RecalculateUserLoyaltyAsync(
+        long userId,
+        long totalSpent,
+        DateTimeOffset calculatedAt,
+        CancellationToken ct);
 }

@@ -1,4 +1,4 @@
-namespace UserService.Application.Models.Users;
+namespace UserService.Application.Models.Users.Enums;
 
 public enum UserRole
 {

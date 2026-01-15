@@ -2,12 +2,10 @@ using UserService.Application.Models.Users.Enums;
 
 namespace UserService.Application.Models.Users;
 
-public record User(
-    long Id,
-    string Nickname,
-    string Email,
-    string PasswordHash,
-    UserRole Role,
-    DateTimeOffset CreatedAt,
+public record UserLoyaltyAccount(
+    long UserId,
+    long TotalSpent,
+    UserLoyaltyLevel LoyaltyLevel,
+    DateTimeOffset CalculatedAt,
     bool IsBlocked,
     DateTimeOffset? BlockedAt);

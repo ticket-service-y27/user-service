@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using UserService.Application.Abstractions.Security;
-using UserService.Application.Models.Users;
+using UserService.Application.Models.Users.Enums;
 
 namespace UserService.Infrastructure.Security.JwtToken;
 

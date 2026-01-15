@@ -8,13 +8,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Application\UserService.Application.Abstractions\UserService.Application.Abstractions.csproj" />
-      <ProjectReference Include="..\..\Application\UserService.Application\UserService.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="BCrypt.Net-Next" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" />
+      <PackageReference Include="Microsoft.Extensions.Options" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
-      <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
     </ItemGroup>
-
+    
 </Project>

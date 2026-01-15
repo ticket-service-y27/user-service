@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using UserService.Application;
 using UserService.Application.Contracts;
-using UserService.Application.Models.Users;
+using UserService.Application.Models.Users.Enums;
 using UserService.Infrastructure.Persistence;
 using UserService.Infrastructure.Persistence.Options;
 using UserService.Infrastructure.Security;

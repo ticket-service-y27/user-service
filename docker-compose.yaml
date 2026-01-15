@@ -52,7 +52,8 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
       ALLOW_PLAINTEXT_LISTENER: yes
       KAFKA_CREATE_TOPICS: >
-        user_events:1:1
+        user_events:1:1,
+        loyalty_sum:1:1
     depends_on:
       - zookeeper
     networks:
@@ -83,7 +84,10 @@ services:
       kafka.clusters.0.serde.0.properties.protobufFilesDir: /schemas/
 
       kafka.clusters.0.serde.0.properties.protobufMessageNameForKeyByTopic.user_events: users.UserEventKey
+      kafka.clusters.0.serde.0.properties.protobufMessageNameForKeyByTopic.payments_sum: loyalty.PaymentsSumKey
+
       kafka.clusters.0.serde.0.properties.protobufMessageNameByTopic.user_events: users.UserEventValue
+      kafka.clusters.0.serde.0.properties.protobufMessageNameByTopic.payments_sum: loyalty.PaymentsSumValue
 
 networks:
   csms-ticket-service-network:

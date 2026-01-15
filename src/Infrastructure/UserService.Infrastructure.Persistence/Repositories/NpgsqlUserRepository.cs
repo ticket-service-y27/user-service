@@ -2,6 +2,7 @@ using Npgsql;
 using UserService.Application.Abstractions.Persistence.Exceptions;
 using UserService.Application.Abstractions.Persistence.Repositories;
 using UserService.Application.Models.Users;
+using UserService.Application.Models.Users.Enums;
 
 namespace UserService.Infrastructure.Persistence.Repositories;
 
@@ -62,7 +63,7 @@ public class NpgsqlUserRepository : IUserRepository
         return await command.ExecuteNonQueryAsync(ct) == 1;
     }
 
-    public async Task<bool> BlockUserByIdAsync(long userId, CancellationToken ct)
+    public async Task<bool> BlockByIdAsync(long userId, CancellationToken ct)
     {
         const string sql =
             """
@@ -82,7 +83,7 @@ public class NpgsqlUserRepository : IUserRepository
         return await command.ExecuteNonQueryAsync(ct) == 1;
     }
 
-    public async Task<bool> UnblockUserByIdAsync(long userId, CancellationToken ct)
+    public async Task<bool> UnblockByIdAsync(long userId, CancellationToken ct)
     {
         const string sql =
             """
@@ -101,7 +102,7 @@ public class NpgsqlUserRepository : IUserRepository
         return await command.ExecuteNonQueryAsync(ct) == 1;
     }
 
-    public async Task<User?> GetUserByNicknameAsync(string nickname, CancellationToken ct)
+    public async Task<User?> GetByNicknameAsync(string nickname, CancellationToken ct)
     {
         const string sql =
             """
@@ -138,7 +139,7 @@ public class NpgsqlUserRepository : IUserRepository
             BlockedAt: reader.GetFieldValue<DateTimeOffset?>(7));
     }
 
-    public async Task<User?> GetUserByIdAsync(long userId, CancellationToken ct)
+    public async Task<User?> GetByIdAsync(long userId, CancellationToken ct)
     {
         const string sql =
             """

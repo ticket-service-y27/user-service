@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Npgsql;
 using UserService.Application.Abstractions.Persistence.Repositories;
-using UserService.Application.Models.Users;
+using UserService.Application.Models.Users.Enums;
 using UserService.Infrastructure.Persistence.Options;
 using UserService.Infrastructure.Persistence.Repositories;
 
@@ -24,10 +24,13 @@ public static class ServiceCollectionExtensions
                 serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value.ConvertToConnectionString();
             var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
             dataSourceBuilder.MapEnum<UserRole>("user_role");
+            dataSourceBuilder.MapEnum<UserLoyaltyLevel>("user_loyalty_level");
             return dataSourceBuilder.Build();
         });
 
         services.AddScoped<IUserRepository, NpgsqlUserRepository>();
+        services.AddScoped<IUserLoyaltyAccountRepository, NpgsqlUserLoyaltyAccountRepository>();
+        services.AddScoped<IUserLoyaltyPeriodRepository, NpgsqlUserLoyaltyPeriodRepository>();
 
         return services;
     }
