@@ -2,6 +2,7 @@ using Itmo.Dev.Platform.Events;
 using System.Net.Mail;
 using System.Transactions;
 using UserService.Application.Abstractions.LoyaltySystem;
+using UserService.Application.Abstractions.LoyaltySystem.Managers;
 using UserService.Application.Abstractions.Persistence.Repositories;
 using UserService.Application.Abstractions.Security;
 using UserService.Application.Contracts;
@@ -10,6 +11,7 @@ using UserService.Application.Exceptions;
 using UserService.Application.Models.Users;
 using UserService.Application.Models.Users.Dtos;
 using UserService.Application.Models.Users.Enums;
+using UserService.Application.Models.Users.Operations;
 
 namespace UserService.Application.Services;
 
@@ -17,7 +19,7 @@ public class UserApplicationService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserLoyaltyAccountRepository _userLoyaltyAccountRepository;
-    private readonly IUserLoyaltyPeriodRepository _userLoyaltyPeriodRepository;
+    private readonly ILoyaltyPeriodRepository _loyaltyPeriodRepository;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtTokenCreator _jwtTokenCreator;
     private readonly IUserLoyaltyManager _userLoyaltyManager;
@@ -27,7 +29,7 @@ public class UserApplicationService : IUserService
     public UserApplicationService(
         IUserRepository userRepository,
         IUserLoyaltyAccountRepository userLoyaltyAccountRepository,
-        IUserLoyaltyPeriodRepository userLoyaltyPeriodRepository,
+        ILoyaltyPeriodRepository loyaltyPeriodRepository,
         IPasswordHasher passwordHasher,
         IJwtTokenCreator jwtTokenCreator,
         IUserLoyaltyManager userLoyaltyManager,
@@ -36,7 +38,7 @@ public class UserApplicationService : IUserService
     {
         _userRepository = userRepository;
         _userLoyaltyAccountRepository = userLoyaltyAccountRepository;
-        _userLoyaltyPeriodRepository = userLoyaltyPeriodRepository;
+        _loyaltyPeriodRepository = loyaltyPeriodRepository;
         _passwordHasher = passwordHasher;
         _jwtTokenCreator = jwtTokenCreator;
         _userLoyaltyManager = userLoyaltyManager;
@@ -69,7 +71,7 @@ public class UserApplicationService : IUserService
             UserRole.User,
             ct);
         await _userLoyaltyAccountRepository.CreateAsync(userId, ct);
-        await _userLoyaltyPeriodRepository.CreateAsync(userId, ct);
+        await _loyaltyPeriodRepository.CreateAsync(userId, ct);
         await _eventPublisher.PublishAsync(
             new UserCreatedEvent(userId, DateTimeOffset.UtcNow),
             ct);
@@ -171,20 +173,35 @@ public class UserApplicationService : IUserService
         DateTimeOffset calculatedAt,
         CancellationToken ct)
     {
-        UserLoyaltyPeriodState? periodState = await _userLoyaltyPeriodRepository.GetAsync(userId, ct);
+        UserLoyaltyPeriodState? periodState = await _loyaltyPeriodRepository.GetAsync(userId, ct);
         if (periodState is null)
             throw new NotFoundException(nameof(UserLoyaltyPeriodState), nameof(userId), userId.ToString());
         if (calculatedAt <= periodState.CalculatedAt)
             return;
+
+        RecalculateTotalSpent state =
+            _userLoyaltyManager.RecalculateTotalSpentAsync(userId, totalSpent, calculatedAt, periodState, ct);
 
         using var transactionScope = new TransactionScope(
             TransactionScopeOption.Required,
             new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
             TransactionScopeAsyncFlowOption.Enabled);
 
-        bool isUpdated = await _userLoyaltyManager.RecalculateAsync(userId, totalSpent, calculatedAt, periodState, ct);
-        if (isUpdated)
-            transactionScope.Complete();
+        await _loyaltyPeriodRepository.UpdateAsync(
+            userId,
+            periodState.PeriodStartAt,
+            state.NewPeriodStartTotalSpent,
+            state.NewPeriodEndTotalSpent,
+            calculatedAt,
+            ct);
+        await _userLoyaltyAccountRepository.UpdateLoyaltyLevelAsync(
+            userId,
+            state.PeriodTotalSpent,
+            state.LoyaltyLevel,
+            calculatedAt,
+            ct);
+
+        transactionScope.Complete();
     }
 
     public async Task<UserDiscountInfoDto> GetUserDiscountInfoAsync(long userId, CancellationToken ct)
@@ -193,7 +210,7 @@ public class UserApplicationService : IUserService
         if (user is null)
             throw new NotFoundException(nameof(User), nameof(userId), userId.ToString());
 
-        Models.Users.UserLoyaltyState? state = await _userLoyaltyAccountRepository.GetUserLoyaltyLevelAsync(userId, ct);
+        UserLoyaltyState? state = await _userLoyaltyAccountRepository.GetUserLoyaltyLevelAsync(userId, ct);
         if (state is null)
             throw new NotFoundException(nameof(UserLoyaltyAccount), nameof(userId), userId.ToString());
 

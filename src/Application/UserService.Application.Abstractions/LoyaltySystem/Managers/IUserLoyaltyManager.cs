@@ -1,10 +1,11 @@
 using UserService.Application.Models.Users;
+using UserService.Application.Models.Users.Operations;
 
-namespace UserService.Application.Abstractions.LoyaltySystem;
+namespace UserService.Application.Abstractions.LoyaltySystem.Managers;
 
 public interface IUserLoyaltyManager
 {
-    Task<bool> RecalculateAsync(
+    RecalculateTotalSpent RecalculateTotalSpentAsync(
         long userId,
         long totalSpent,
         DateTimeOffset calculatedAt,

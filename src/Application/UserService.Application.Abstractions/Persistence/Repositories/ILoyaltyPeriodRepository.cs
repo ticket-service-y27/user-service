@@ -2,7 +2,7 @@ using UserService.Application.Models.Users;
 
 namespace UserService.Application.Abstractions.Persistence.Repositories;
 
-public interface IUserLoyaltyPeriodRepository
+public interface ILoyaltyPeriodRepository
 {
     Task CreateAsync(long userId, CancellationToken ct);
 
@@ -15,4 +15,9 @@ public interface IUserLoyaltyPeriodRepository
         CancellationToken ct);
 
     Task<UserLoyaltyPeriodState?> GetAsync(long userId, CancellationToken ct);
+
+    Task<IReadOnlyList<long>> FindUserIdsWithExpiredPeriodAsync(
+        DateTimeOffset timeNow,
+        TimeSpan periodLength,
+        CancellationToken ct);
 }

@@ -1,5 +1,5 @@
-using UserService.Application.Models.Users;
 using UserService.Application.Models.Users.Enums;
+using UserService.Application.Models.Users.Operations;
 
 namespace UserService.Application.Abstractions.Persistence.Repositories;
 

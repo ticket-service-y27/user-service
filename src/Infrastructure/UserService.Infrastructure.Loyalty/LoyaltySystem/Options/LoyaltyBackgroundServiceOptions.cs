@@ -2,9 +2,7 @@ namespace UserService.Infrastructure.Loyalty.LoyaltySystem.Options;
 
 public class LoyaltyBackgroundServiceOptions
 {
-    public int LengthDays { get; init; }
+    public long PeriodLenghtSeconds { get; set; }
 
-    public int CheckEveryMinutes { get; init; }
-
-    public int BatchSize { get; init; }
+    public int CheckEverySeconds { get; set; }
 }

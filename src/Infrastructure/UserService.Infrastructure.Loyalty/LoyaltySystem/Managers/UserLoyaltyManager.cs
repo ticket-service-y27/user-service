@@ -1,27 +1,22 @@
 using UserService.Application.Abstractions.LoyaltySystem;
-using UserService.Application.Abstractions.Persistence.Repositories;
+using UserService.Application.Abstractions.LoyaltySystem.Managers;
 using UserService.Application.Models.Users;
 using UserService.Application.Models.Users.Enums;
+using UserService.Application.Models.Users.Operations;
 
-namespace UserService.Infrastructure.Loyalty.LoyaltySystem.LoyaltySystemManagers;
+namespace UserService.Infrastructure.Loyalty.LoyaltySystem.Managers;
 
 public class UserLoyaltyManager : IUserLoyaltyManager
 {
-    private readonly IUserLoyaltyAccountRepository _userLoyaltyAccountRepository;
-    private readonly IUserLoyaltyPeriodRepository _userLoyaltyPeriodRepository;
     private readonly ILoyaltyLevelCalculator _loyaltyLevelCalculator;
 
     public UserLoyaltyManager(
-        IUserLoyaltyAccountRepository userLoyaltyAccountRepository,
-        IUserLoyaltyPeriodRepository userLoyaltyPeriodRepository,
         ILoyaltyLevelCalculator loyaltyLevelCalculator)
     {
-        _userLoyaltyAccountRepository = userLoyaltyAccountRepository;
-        _userLoyaltyPeriodRepository = userLoyaltyPeriodRepository;
         _loyaltyLevelCalculator = loyaltyLevelCalculator;
     }
 
-    public async Task<bool> RecalculateAsync(
+    public RecalculateTotalSpent RecalculateTotalSpentAsync(
         long userId,
         long totalSpent,
         DateTimeOffset calculatedAt,
@@ -42,25 +37,10 @@ public class UserLoyaltyManager : IUserLoyaltyManager
             loyaltyLevel = UserLoyaltyLevel.Bronze;
         }
 
-        bool isPeriodUpdated = await _userLoyaltyPeriodRepository.UpdateAsync(
-            userId,
-            periodState.PeriodStartAt,
+        return new RecalculateTotalSpent(
             newPeriodStartTotalSpent,
             newPeriodEndTotalSpent,
-            calculatedAt,
-            ct);
-        if (!isPeriodUpdated)
-            return false;
-
-        bool isAccountUpdated = await _userLoyaltyAccountRepository.UpdateLoyaltyLevelAsync(
-            userId,
             periodTotalSpent,
-            loyaltyLevel,
-            calculatedAt,
-            ct);
-        if (!isAccountUpdated)
-            return false;
-
-        return true;
+            loyaltyLevel);
     }
 }

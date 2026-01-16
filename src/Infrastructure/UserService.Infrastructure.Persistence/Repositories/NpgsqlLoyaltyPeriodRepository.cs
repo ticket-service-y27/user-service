@@ -5,11 +5,11 @@ using UserService.Application.Models.Users;
 
 namespace UserService.Infrastructure.Persistence.Repositories;
 
-public class NpgsqlUserLoyaltyPeriodRepository : IUserLoyaltyPeriodRepository
+public class NpgsqlLoyaltyPeriodRepository : ILoyaltyPeriodRepository
 {
     private readonly NpgsqlDataSource _dataSource;
 
-    public NpgsqlUserLoyaltyPeriodRepository(NpgsqlDataSource dataSource)
+    public NpgsqlLoyaltyPeriodRepository(NpgsqlDataSource dataSource)
     {
         _dataSource = dataSource;
     }
@@ -92,5 +92,32 @@ public class NpgsqlUserLoyaltyPeriodRepository : IUserLoyaltyPeriodRepository
             PeriodStartTotalSpent: reader.GetInt64(2),
             PeriodEndTotalSpent: reader.GetInt64(3),
             CalculatedAt: reader.GetFieldValue<DateTimeOffset>(4));
+    }
+
+    public async Task<IReadOnlyList<long>> FindUserIdsWithExpiredPeriodAsync(
+        DateTimeOffset timeNow,
+        TimeSpan periodLength,
+        CancellationToken ct)
+    {
+        const string sql =
+            """
+            select user_id
+            from user_loyalty_periods
+            where period_start_at + @period_length <= @time_now;
+            """;
+
+        await using NpgsqlConnection connection = await _dataSource.OpenConnectionAsync(ct);
+
+        await using var command = new NpgsqlCommand(sql, connection);
+        command.Parameters.AddWithValue("time_now", timeNow);
+        command.Parameters.AddWithValue("period_length", periodLength);
+
+        var items = new List<long>();
+
+        await using NpgsqlDataReader reader = await command.ExecuteReaderAsync(ct);
+        while (await reader.ReadAsync(ct))
+            items.Add(reader.GetInt64(0));
+
+        return items;
     }
 }

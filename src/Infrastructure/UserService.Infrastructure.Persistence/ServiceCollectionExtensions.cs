@@ -30,7 +30,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IUserRepository, NpgsqlUserRepository>();
         services.AddScoped<IUserLoyaltyAccountRepository, NpgsqlUserLoyaltyAccountRepository>();
-        services.AddScoped<IUserLoyaltyPeriodRepository, NpgsqlUserLoyaltyPeriodRepository>();
+        services.AddScoped<ILoyaltyPeriodRepository, NpgsqlLoyaltyPeriodRepository>();
 
         return services;
     }
