@@ -180,7 +180,7 @@ public class UserApplicationService : IUserService
             return;
 
         RecalculateTotalSpent state =
-            _userLoyaltyManager.RecalculateTotalSpentAsync(userId, totalSpent, calculatedAt, periodState, ct);
+            _userLoyaltyManager.RecalculateTotalSpent(userId, totalSpent, calculatedAt, periodState);
 
         using var transactionScope = new TransactionScope(
             TransactionScopeOption.Required,

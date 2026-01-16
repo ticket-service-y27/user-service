@@ -16,12 +16,11 @@ public class UserLoyaltyManager : IUserLoyaltyManager
         _loyaltyLevelCalculator = loyaltyLevelCalculator;
     }
 
-    public RecalculateTotalSpent RecalculateTotalSpentAsync(
+    public RecalculateTotalSpent RecalculateTotalSpent(
         long userId,
         long totalSpent,
         DateTimeOffset calculatedAt,
-        UserLoyaltyPeriodState periodState,
-        CancellationToken ct)
+        UserLoyaltyPeriodState periodState)
     {
         long newPeriodStartTotalSpent = periodState.PeriodStartTotalSpent;
         long newPeriodEndTotalSpent = totalSpent;

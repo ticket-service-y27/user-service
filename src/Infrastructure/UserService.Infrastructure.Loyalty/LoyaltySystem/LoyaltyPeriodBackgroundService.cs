@@ -31,7 +31,7 @@ public class LoyaltyPeriodBackgroundService : BackgroundService
 
             await periodManager.MoveExpiredPeriodsAsync(
                 DateTimeOffset.UtcNow,
-                TimeSpan.FromSeconds(_optionsMonitor.CurrentValue.PeriodLenghtSeconds),
+                periodLength: TimeSpan.FromSeconds(_optionsMonitor.CurrentValue.PeriodLengthSeconds),
                 stoppingToken);
         }
     }

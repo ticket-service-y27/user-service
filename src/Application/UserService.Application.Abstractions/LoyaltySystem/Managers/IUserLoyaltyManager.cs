@@ -5,10 +5,9 @@ namespace UserService.Application.Abstractions.LoyaltySystem.Managers;
 
 public interface IUserLoyaltyManager
 {
-    RecalculateTotalSpent RecalculateTotalSpentAsync(
+    RecalculateTotalSpent RecalculateTotalSpent(
         long userId,
         long totalSpent,
         DateTimeOffset calculatedAt,
-        UserLoyaltyPeriodState periodState,
-        CancellationToken ct);
+        UserLoyaltyPeriodState periodState);
 }

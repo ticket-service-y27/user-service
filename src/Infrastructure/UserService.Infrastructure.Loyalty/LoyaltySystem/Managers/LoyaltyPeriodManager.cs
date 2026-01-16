@@ -1,3 +1,4 @@
+using System.Transactions;
 using UserService.Application.Abstractions.LoyaltySystem.Managers;
 using UserService.Application.Abstractions.Persistence.Repositories;
 using UserService.Application.Models.Users;
@@ -31,6 +32,11 @@ public class LoyaltyPeriodManager : ILoyaltyPeriodManager
 
             long newStartTotalSpent = state.PeriodEndTotalSpent;
 
+            using var transactionScope = new TransactionScope(
+                TransactionScopeOption.Required,
+                new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
+                TransactionScopeAsyncFlowOption.Enabled);
+
             await _loyaltyPeriodRepository.UpdateAsync(
                 userId,
                 periodStartAt: timeNow,
@@ -44,6 +50,8 @@ public class LoyaltyPeriodManager : ILoyaltyPeriodManager
                 loyaltyLevel: UserLoyaltyLevel.Bronze,
                 calculatedAt: timeNow,
                 ct);
+
+            transactionScope.Complete();
         }
     }
 }
