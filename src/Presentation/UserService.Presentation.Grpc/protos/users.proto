@@ -9,6 +9,7 @@ service UserService {
   rpc AssignUserRole(AssignUserRoleRequest) returns (AssignUserRoleResponse);
   rpc BlockUserById(BlockUserByIdRequest) returns (BlockUserByIdResponse);
   rpc UnblockUserById(UnblockUserByIdRequest) returns (UnblockUserByIdResponse);
+  rpc GetUserLoyaltyLevel(GetUserLoyaltyLevelRequest) returns (GetUserLoyaltyLevelResponse);
 }
 
 enum UserRoleGrpc {
@@ -16,6 +17,14 @@ enum UserRoleGrpc {
   USER_ROLE_GRPC_USER = 1;
   USER_ROLE_GRPC_ADMIN = 2;
   USER_ROLE_GRPC_ORGANIZER = 3;
+}
+
+enum UserLoyaltyLevelGrpc {
+  USER_LOYALTY_LEVEL_GRPC_UNSPECIFIED = 0;
+  USER_LOYALTY_LEVEL_GRPC_BRONZE = 1;
+  USER_LOYALTY_LEVEL_GRPC_SILVER = 2;
+  USER_LOYALTY_LEVEL_GRPC_GOLD = 3;
+  USER_LOYALTY_LEVEL_GRPC_PLATINUM = 4;
 }
 
 message LogInByNicknameRequest {
@@ -56,4 +65,12 @@ message UnblockUserByIdRequest {
   int64 user_id = 1;
 }
 message UnblockUserByIdResponse {
+}
+
+
+message GetUserLoyaltyLevelRequest {
+  int64 user_id = 1;
+}
+message GetUserLoyaltyLevelResponse {
+  UserLoyaltyLevelGrpc level = 1;
 }

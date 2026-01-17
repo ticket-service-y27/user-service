@@ -1,6 +1,7 @@
 using Grpc.Core;
 using Users.UserService.Contracts;
 using UserService.Application.Contracts;
+using UserService.Application.Models.Users.Enums;
 
 namespace UserService.Presentation.Grpc.Services;
 
@@ -60,5 +61,15 @@ public class UserServiceGrpc : Users.UserService.Contracts.UserService.UserServi
     {
         await _userService.UnblockUserByIdAsync(request.UserId, context.CancellationToken);
         return new UnblockUserByIdResponse();
+    }
+
+    public override async Task<GetUserLoyaltyLevelResponse> GetUserLoyaltyLevel(GetUserLoyaltyLevelRequest request, ServerCallContext context)
+    {
+        UserLoyaltyLevel level = await _userService.GetUserLoyaltyLevelAsync(request.UserId, context.CancellationToken);
+
+        return new GetUserLoyaltyLevelResponse
+        {
+            Level = level.MapUserLoyaltyLevel(),
+        };
     }
 }

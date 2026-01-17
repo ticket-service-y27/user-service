@@ -86,7 +86,7 @@ public class NpgsqlUserLoyaltyAccountRepository : IUserLoyaltyAccountRepository
         return await command.ExecuteNonQueryAsync(ct) == 1;
     }
 
-    public async Task<UserLoyaltyState?> GetUserLoyaltyLevelAsync(long userId, CancellationToken ct)
+    public async Task<UserLoyaltyState?> GetUserLoyaltyStateAsync(long userId, CancellationToken ct)
     {
         const string sql =
             """

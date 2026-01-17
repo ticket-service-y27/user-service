@@ -210,12 +210,25 @@ public class UserApplicationService : IUserService
         if (user is null)
             throw new NotFoundException(nameof(User), nameof(userId), userId.ToString());
 
-        UserLoyaltyState? state = await _userLoyaltyAccountRepository.GetUserLoyaltyLevelAsync(userId, ct);
+        UserLoyaltyState? state = await _userLoyaltyAccountRepository.GetUserLoyaltyStateAsync(userId, ct);
         if (state is null)
             throw new NotFoundException(nameof(UserLoyaltyAccount), nameof(userId), userId.ToString());
 
         return new UserDiscountInfoDto(
             _loyaltyLevelCalculator.GetDiscountPercent(state.Level),
             state.IsBlocked);
+    }
+
+    public async Task<UserLoyaltyLevel> GetUserLoyaltyLevelAsync(long userId, CancellationToken ct)
+    {
+        User? user = await _userRepository.GetByIdAsync(userId, ct);
+        if (user is null)
+            throw new NotFoundException(nameof(User), nameof(userId), userId.ToString());
+
+        UserLoyaltyState? state = await _userLoyaltyAccountRepository.GetUserLoyaltyStateAsync(userId, ct);
+        if (state is null)
+            throw new NotFoundException(nameof(UserLoyaltyAccount), nameof(userId), userId.ToString());
+
+        return state.Level;
     }
 }

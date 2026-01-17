@@ -22,4 +22,6 @@ public interface IUserService
         CancellationToken ct);
 
     Task<UserDiscountInfoDto> GetUserDiscountInfoAsync(long userId, CancellationToken ct);
+
+    Task<UserLoyaltyLevel> GetUserLoyaltyLevelAsync(long userId, CancellationToken ct);
 }

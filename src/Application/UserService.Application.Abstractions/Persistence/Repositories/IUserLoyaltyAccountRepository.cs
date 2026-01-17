@@ -16,5 +16,5 @@ public interface IUserLoyaltyAccountRepository
         DateTimeOffset calculatedAt,
         CancellationToken ct);
 
-    Task<UserLoyaltyState?> GetUserLoyaltyLevelAsync(long userId, CancellationToken ct);
+    Task<UserLoyaltyState?> GetUserLoyaltyStateAsync(long userId, CancellationToken ct);
 }
